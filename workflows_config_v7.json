@@ -1,0 +1,187 @@
+{
+    "workflows": {
+        "cad5fd1e-7471-4304-9f6a-5b7555d9aaf3": {
+            "name": "\u540c\u6b65\u8bca\u65ad\u6a21\u677f",
+            "tasks": [
+                {
+                    "name": "\u53d6\u6750\u6a21\u677f\u540c\u6b65(stationary_human_tissues)",
+                    "src_db": "\u65e7PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "SELECT\n\tsystem_id + 100000000 id,\n\tsystem_name name,\n\tsystem_id + 100000000 root_id,\n\t0 pid,\n\tconcat( '/0/', system_name ) name_path,\n\tconcat( '/0/', system_id + 100000000 ) id_path,\n\t1 level,\n\tsort_index*1000 sorts,\n\tNULL gross_description,\n\t\t2001174362429849600 account_id\nFROM\n\t`t_dict_system` \nWHERE\n\tis_delete =0\nunion\nSELECT\n\tb.organ_id + 200000000 id,\n\tb.organ_name name,\n\tb.system_id + 100000000 root_id,\n\tb.system_id + 100000000 pid,\n\tconcat( '/0/', a.system_name,'/',b.organ_name ) name_path,\n\tconcat( '/0/', b.system_id + 100000000,'/',b.organ_id + 200000000 ) id_path,\n\t2 level,\n\tb.sort_index*1000 sorts,\n\tgenerally_see gross_description,\n\t\t2001174362429849600 account_id\nFROM\n\t`t_dict_system` a left join t_dict_organ b on a.system_id =b.system_id\nwhere \n   a.is_delete=0 and b.is_delete=0\n\t \nunion\nSELECT\n\tc.sample_id + 300000000 id,\n\tc.sample_name name,\n\tb.organ_id + 200000000 pid,\n\tb.system_id + 100000000 root_id,\n\tconcat( '/0/', a.system_name,'/',b.organ_name,'/',c.sample_name ) name_path,\n\tconcat( '/0/', b.system_id + 100000000,'/',b.organ_id + 200000000,'/',c.sample_id + 300000000 ) id_path,\n\t3 level,\n\tb.sort_index*1000 sorts,\n\tnull gross_description,\n\t\t2001174362429849600 account_id\nFROM\n\t`t_dict_system` a left join t_dict_organ b on a.system_id =b.system_id\n\tleft join t_dict_sample c on b.organ_id=c.organ_id\nwhere \n   a.is_delete=0 and b.is_delete=0 and c.is_delete=0",
+                    "is_sql": true,
+                    "dest_table": "stationary_human_tissues",
+                    "write_mode": "append",
+                    "sync_pk": "",
+                    "mapping": {
+                        "id": "id",
+                        "name": "name",
+                        "root_id": "root_id",
+                        "pid": "pid",
+                        "name_path": "name_path",
+                        "id_path": "id_path",
+                        "level": "level",
+                        "sorts": "sorts",
+                        "gross_description": "gross_description",
+                        "account_id": "account_id"
+                    }
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b651(stationary_specimen_type)",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "INSERT INTO `data_center`.`stationary_specimen_type` (\n    `id`, `create_time`, `update_time`, `create_user_name`, `create_user_id`, \n    `update_user_name`, `update_user_id`, `deleted`, `account_id`, `org_id`, \n    `specimen_type_code`, `specimen_type_name`, `pathology_type`\n) VALUES \n(2002294948107386880, '2025-12-20 16:28:11', '2025-12-20 16:28:11', '', 0, '', 2001174362610204672, 0, 2001174362429849600, 0, '10', '\u5e38\u89c4\u6807\u672c', 'TISSUE'),\n(2002295003107295232, '2025-12-20 16:28:24', '2025-12-20 16:28:24', '', 0, '', 2001174362610204672, 0, 2001174362429849600, 0, '11', '\u6d3b\u68c0\u5c0f\u6807\u672c', 'TISSUE'),\n(2002295003107295233, '2025-12-20 16:28:24', '2025-12-20 16:28:24', '', 0, '', 2001174362610204672, 0, 2001174362429849600, 0, '20', '\u5bab\u9888\u7ec6\u80de', 'CELL'),\n(2002295003107295234, '2025-12-20 16:28:24', '2025-12-20 16:28:24', '', 0, '', 2001174362610204672, 0, 2001174362429849600, 0, '21', '\u8131\u843d\u7ec6\u80de', 'CELL'),\n(2002295003107295235, '2025-12-20 16:28:24', '2025-12-20 16:28:24', '', 0, '', 2001174362610204672, 0, 2001174362429849600, 0, '22', '\u7ec6\u9488\u7a7f\u523a', 'CELL'),\n(2003287668917534720, '2025-12-23 10:12:54', '2025-12-23 10:12:54', '', 0, '\u51af\u71d5', 2001174362610204672, 0, 2001174362429849600, 0, '23', '\u5176\u4ed6\u7c7b\u578b', 'CELL'),\n(2003287708914417664, '2025-12-23 10:13:03', '2025-12-23 10:13:04', '', 0, '\u51af\u71d5', 2001174362610204672, 0, 2001174362429849600, 0, '24', '\u9aa8\u9ad3\u7ec6\u80de', 'CELL'),\n(2004463946303537152, '2025-12-26 16:07:00', '2026-03-02 15:35:09', '', 0, '\u5ba1\u6838\u4e00', 2004181084429877248, 0, 2001174362429849600, 0, '44', '\u5916\u5468\u8840', 'MOLECULE'),\n(2008352699212365824, '2026-01-06 09:39:31', '2026-01-06 09:39:32', '', 0, '\u521d\u8bca\u4e00', 2004180785745100800, 0, 2001174362429849600, 0, '31', '\u65b0\u9c9c\u7ec4\u7ec7', 'MOLECULE'),\n(2008355572230914048, '2026-01-06 09:50:56', '2026-01-06 09:50:57', '', 0, '\u521d\u8bca\u4e00', 2004180785745100800, 0, 2001174362429849600, 0, '32', '\u5305\u57cb\u8721\u5757', 'MOLECULE'),\n(2008355659552129024, '2026-01-06 09:51:17', '2026-01-06 09:51:17', '', 0, '\u521d\u8bca\u4e00', 2004180785745100800, 0, 2001174362429849600, 0, '33', '\u767d\u7247', 'MOLECULE'),\n(2008355881921544192, '2026-01-06 09:52:10', '2026-01-06 09:52:10', '', 0, '\u521d\u8bca\u4e00', 2004180785745100800, 0, 2001174362429849600, 0, '34', '\u5168\u8840', 'MOLECULE'),\n(2008355951924477952, '2026-01-06 09:52:27', '2026-01-06 09:52:27', '', 0, '\u521d\u8bca\u4e00', 2004180785745100800, 0, 2001174362429849600, 0, '35', '\u5987\u79d1\u5206\u6ccc\u7269', 'MOLECULE'),\n(2008356008354643968, '2026-01-06 09:52:40', '2026-01-28 14:33:11', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '36', '\u5c3f\u6db2', 'MOLECULE'),\n(2008356008354643999, '2026-01-06 09:52:40', '2026-03-02 15:33:25', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '25', '\u5bab\u8154\u704c\u6d17\u6db2', 'CELL'),\n(2008356008354644000, '2026-01-06 09:52:40', '2026-03-02 15:39:39', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '26', '\u5916\u5468\u8840\u7ec6\u80de', 'CELL'),\n(2008356008354644001, '2026-01-06 09:52:40', '2026-03-02 15:40:43', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '27', '\u8111\u810a\u6db2\u7ec6\u80de', 'CELL'),\n(2008356008354644002, '2026-01-06 09:52:40', '2026-03-02 15:42:02', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '28', '\u9aa8\u9ad3\u6d3b\u68c0', 'CELL'),\n(2008356008354644003, '2026-01-06 09:52:40', '2026-03-02 15:43:02', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '29', '\u7ec6\u80de\u8367\u5149', 'CELL'),\n(2008356008354644004, '2026-01-06 09:52:40', '2026-03-02 15:43:09', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '30', '\u4f53\u6db2\u7ec6\u80de', 'CELL'),\n(2008356008354644005, '2026-01-06 09:52:40', '2026-03-02 15:43:35', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '60', '\u9634\u9053\u5206\u6ccc\u7269', 'CELL'),\n(2008356008354644006, '2026-01-06 09:52:40', '2026-03-02 15:44:43', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '70', 'EDTAK2\u9759\u8109\u8840', 'CELL'),\n(2008356008354644007, '2026-01-06 09:52:40', '2026-03-02 15:44:58', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '80', '\u80a0\u9053\u8131\u843d\u7ec6\u80de', 'CELL'),\n(2008356008354644008, '2026-01-06 09:52:40', '2026-03-02 15:45:27', '', 0, '\u6f14\u793a', 2001174362610204672, 0, 2001174362429849600, 0, '90', '\u5bab\u9888\u7ec6\u80de\uff08DNA\u500d\u4f53\uff09', 'CELL')",
+                    "is_sql": true,
+                    "dest_table": "",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b652(stationary_cell_specimen)",
+                    "src_db": "\u65e7PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "select sample_id+300000000 id,sample_type specimen_type_id,sample_name name,\n2001174362429849600 account_id from t_dict_sample_cell where is_delete=0",
+                    "is_sql": true,
+                    "dest_table": "stationary_cell_specimen",
+                    "write_mode": "append",
+                    "sync_pk": "",
+                    "mapping": {
+                        "id": "id",
+                        "specimen_type_id": "specimen_type_id",
+                        "name": "name",
+                        "account_id": "account_id"
+                    }
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b653(\u66f4\u65b0stationary_cell_specimen)",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "select a.id,b.id specimen_type_id\n,0 pid,b.id root_id,a.name\n,concat('/0/',b.id,'/',a.id) id_path\n,concat('/0/',b.specimen_type_name,'/',a.name) name_path\nfrom stationary_cell_specimen a left join stationary_specimen_type b on a.specimen_type_id=b.specimen_type_code",
+                    "is_sql": true,
+                    "dest_table": "stationary_cell_specimen",
+                    "write_mode": "update",
+                    "sync_pk": "id",
+                    "mapping": {
+                        "id": "id",
+                        "specimen_type_id": "specimen_type_id",
+                        "pid": "pid",
+                        "root_id": "root_id",
+                        "name": "name",
+                        "id_path": "id_path",
+                        "name_path": "name_path"
+                    }
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b654(stationary_disease)",
+                    "src_db": "\u65e7PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "select template_id+10000000 id,\ncase when root_template_id is not null then root_template_id+10000000 else template_id+10000000 end root_id,\ncase when parent_template_id is not null then parent_template_id+10000000 else 0 end pid,\ncase when template_type=1 then 0 else 1 end type,\ncase when template_type=1 then extend_id+200000000\nelse extend_id+300000000 end\ntissues_id,\ntemplate_name name,\nmirror_see microscopic_findings,\nsuggest_memo recommendations,\ndiagnosis pathologic_diagnosis,\nsort_index*1000 sorts,\ncase when parent_template_id is null then 1\nwhen parent_template_id=root_template_id then 2\nelse 3 end level,\n2001174362429849600 account_id\nfrom t_dict_template \n",
+                    "is_sql": true,
+                    "dest_table": "stationary_disease",
+                    "write_mode": "append",
+                    "sync_pk": "",
+                    "mapping": {
+                        "id": "id",
+                        "root_id": "root_id",
+                        "pid": "pid",
+                        "type": "type",
+                        "tissues_id": "tissues_id",
+                        "name": "name",
+                        "microscopic_findings": "microscopic_findings",
+                        "recommendations": "recommendations",
+                        "pathologic_diagnosis": "pathologic_diagnosis",
+                        "sorts": "sorts",
+                        "level": "level",
+                        "account_id": "account_id"
+                    }
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b655(\u66f4\u65b0stationary_disease)",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "update stationary_disease set id_path=concat('/0/',id) where level=1",
+                    "is_sql": true,
+                    "dest_table": "stationary_disease",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b656(\u66f4\u65b0stationary_disease)",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "update stationary_disease a, (select id_path,id from stationary_disease where level=1) b set a.id_path=concat(b.id_path,'/',a.id) where level=2 and a.pid=b.id\n",
+                    "is_sql": true,
+                    "dest_table": "stationary_disease",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u8bca\u65ad\u6a21\u677f\u540c\u6b657(\u66f4\u65b0stationary_disease)",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "update stationary_disease a, (select id_path,id from stationary_disease where level=2) b set a.id_path=concat(b.id_path,'/',a.id) where level=3 and a.pid=b.id\n\n",
+                    "is_sql": true,
+                    "dest_table": "stationary_disease",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                }
+            ]
+        },
+        "149771a9-2ea2-435c-8eba-cd2d4cab0d58": {
+            "name": "\u6e05\u7a7a\u8868",
+            "tasks": [
+                {
+                    "name": "\u6e05\u7a7astationary_human_tissues",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "DELETE from stationary_human_tissues",
+                    "is_sql": true,
+                    "dest_table": "",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u6e05\u7a7astationary_specimen_type",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "DELETE from stationary_specimen_type",
+                    "is_sql": true,
+                    "dest_table": "",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u6e05\u7a7astationary_cell_specimen",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "DELETE from stationary_cell_specimen",
+                    "is_sql": true,
+                    "dest_table": "",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                },
+                {
+                    "name": "\u6e05\u7a7astationary_disease",
+                    "src_db": "\u65b0PIS",
+                    "dest_db": "\u65b0PIS",
+                    "source": "DELETE from stationary_disease",
+                    "is_sql": true,
+                    "dest_table": "",
+                    "write_mode": "insert",
+                    "sync_pk": "",
+                    "mapping": {}
+                }
+            ]
+        }
+    },
+    "connections": {
+        "\u65e7PIS": "mysql+pymysql://root:3Ks6#eR!9qF2$tB@36.213.69.254:13309/med100v2",
+        "\u65b0PIS": "mysql+pymysql://dc_admin:X6DTD2HWcwv%40y3XzQhY^V6U7@10.25.13.202:30813/data_center"
+    }
+}
