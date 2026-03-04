@@ -75,9 +75,9 @@ class WorkflowThread(QThread):
 class MigrationApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("数据同步工作流中心 Pro v7")
+        self.setWindowTitle("DataBridge-Pro")
         self.resize(1280, 720)
-        self.db_file = "workflows_config_v7.json"
+        self.db_file = "workflows_config.json"
         self.last_page_idx = 0  # 新增：记录进入日志页之前的页面
         data = self.load_data()
         self.workflows = data.get("workflows", {})
@@ -532,7 +532,7 @@ def print_logo():
     #   | |_| | (_| | || (_| | |_) | |  | | (_| | (_| |#
     #   |____/ \__,_|\__\__,_|____/|_|  |_|\__,_|\__, |#
     #                                            |___/  #
-    #            --- DataBridge Pro v7 ---          #
+    #            --- DataBridge Pro ---          #
     #################################################
     """
     print(logo)
