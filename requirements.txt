@@ -1,0 +1,5 @@
+PyQt5==5.15.10
+SQLAlchemy==2.0.25
+pandas==2.2.0
+pymysql==1.1.0
+cryptography==42.0.2
