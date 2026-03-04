@@ -2,3 +2,9 @@
 __pycache__/
 *.pyc
 .venv/
+dist/
+build/
+*.spec
+*.xml
+*.iml
+.idea/

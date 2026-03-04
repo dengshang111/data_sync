@@ -64,3 +64,8 @@ python main.py
                             +-------+-------+
                             |               |
                       数据提取 (Pandas)   配置存储 (JSON)
+
+### 执行打包
+```bash
+python build.py
+```
