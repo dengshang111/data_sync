@@ -1,8 +1,19 @@
+import ctypes
+import os
 import sys, json, uuid, datetime, re, pandas as pd
+import time
+
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtCore import Qt, QThread, pyqtSignal,QPropertyAnimation,QSequentialAnimationGroup
 from sqlalchemy import create_engine, text
 
+
+# 1. 尝试导入 pyi_splash (只有在打包后的 exe 环境中才存在)
+try:
+    import pyi_splash
+except ImportError:
+    pyi_splash = None
 
 # --- 1. 执行引擎 (核心逻辑) ---
 class WorkflowThread(QThread):
@@ -91,6 +102,20 @@ class MigrationApp(QMainWindow):
         self.init_wf_page()  # 1
         self.init_task_page()  # 2
         self.init_log_page()  # 3
+        # 核心设置：窗口图标与任务栏图标
+        self.set_app_icon()
+
+    def set_app_icon(self):
+        # 兼容打包后的路径定位
+        if hasattr(sys, '_MEIPASS'):
+            # 打包后的临时解压路径
+            icon_path = os.path.join(sys._MEIPASS, "app_icon.ico")
+        else:
+            # 本地运行路径
+            icon_path = "app_icon.ico"
+
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
 
     def load_data(self):
         try:
@@ -149,41 +174,6 @@ class MigrationApp(QMainWindow):
             b_del.clicked.connect(lambda _, id=wid: self.delete_wf(id))
             for b in [b_run, b_manage, b_edit, b_del]: bl.addWidget(b)
             self.wf_table.setCellWidget(i, 2, btns)
-
-    # --- 新增：数据库连接管理弹窗 ---
-    # def manage_connections(self):
-    #     dialog = QDialog(self);
-    #     dialog.setWindowTitle("数据库连接池管理");
-    #     dialog.resize(800, 500)
-    #     dl = QVBoxLayout(dialog)
-    #     table = QTableWidget(0, 3);
-    #     table.setHorizontalHeaderLabels(["名称(别名)", "SQLAlchemy URL", "操作"])
-    #     table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
-    #     dl.addWidget(table)
-    #
-    #     def ref():
-    #         table.setRowCount(len(self.connections))
-    #         for i, (name, url) in enumerate(self.connections.items()):
-    #             table.setItem(i, 0, QTableWidgetItem(name))
-    #             table.setItem(i, 1, QTableWidgetItem(url))
-    #             btn_del = QPushButton("删除");
-    #             btn_del.clicked.connect(lambda _, n=name: (self.connections.pop(n), self.save_data(), ref()))
-    #             table.setCellWidget(i, 2, btn_del)
-    #
-    #     btn_add = QPushButton("+ 添加新连接")
-    #     btn_add.clicked.connect(lambda: self.add_conn_logic(ref))
-    #     dl.addWidget(btn_add);
-    #     ref();
-    #     dialog.exec_()
-
-    # def add_conn_logic(self, callback):
-    #     name, ok1 = QInputDialog.getText(self, "连接名", "请输入连接别名(如: 生产库_202):")
-    #     if not ok1 or not name: return
-    #     url, ok2 = QInputDialog.getText(self, "连接地址", "请输入SQLAlchemy URL:")
-    #     if ok2 and url:
-    #         self.connections[name] = url
-    #         self.save_data();
-    #         callback()
 
     # --- 任务编辑页 (修改为下拉选择) ---
     def init_task_page(self):
@@ -540,7 +530,13 @@ def print_logo():
 if __name__ == "__main__":
     print_logo() # 启动时打印 Logo
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon("app_icon.ico"))
+    my_appid = 'ds.dataBridge.v7'  # 任意唯一字符串
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(my_appid)
     app.setStyle("Fusion")
-    win = MigrationApp();
-    win.show();
+    win = MigrationApp()
+    # 3. 当主窗口准备好显示时，关闭封面
+    if pyi_splash:
+        pyi_splash.close()
+    win.show()
     sys.exit(app.exec_())

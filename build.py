@@ -6,7 +6,7 @@ main_script = "main.py"
 # 定义输出的可执行文件名
 exe_name = "DataBridge-Pro"
 # 图标文件（可选，如果没有 .ico 文件可以删掉 --icon 这一行）
-icon_path = "app_icon.ico" 
+icon_path = "app_icon.ico"
 
 params = [
     main_script,
@@ -14,7 +14,15 @@ params = [
     '--windowed',           # 运行时不显示命令行窗口 (GUI 程序必备)
     f'--name={exe_name}',   # 指定生成的文件名
     '--clean',              # 打包前清理临时文件
-    # '--icon=' + icon_path # 如果你有图标，取消这一行的注释
+    '--icon=' + icon_path, # 如果你有图标，取消这一行的注释
+    # ... 排除没用的关联库 ...
+    '--exclude-module=matplotlib',
+    '--exclude-module=scipy',
+    '--exclude-module=notebook',
+    '--exclude-module=IPython',
+    # --- 新增启动封面参数 ---
+    '--splash=splash.png',
+    '--clean'
 ]
 
 if __name__ == "__main__":
