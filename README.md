@@ -1,4 +1,12 @@
-# 🌊 数据同步工作流中心 Pro (v7)
+# 🌊 DataBridge-Pro 
+> **高效、稳定的跨库数据同步可视化工作台**
+
+[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
+[![Framework](https://img.shields.io/badge/framework-PyQt5-orange.svg)](https://www.riverbankcomputing.com/software/pyqt/)
+[![ORM](https://img.shields.io/badge/ORM-SQLAlchemy-red.svg)](https://www.sqlalchemy.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+---
 
 这是一个基于 **PyQt5** 和 **SQLAlchemy** 开发的轻量级可视化数据迁移与同步工具。支持多数据库连接管理、自定义 SQL 抽取、字段映射以及任务流的灵活排序执行。
 
@@ -39,7 +47,8 @@ python main.py
     
     点击 ▶ 运行 开始同步。
 
-🛠️ 技术栈
+### 🛠️ 技术栈
+
     GUI 框架: PyQt5 (Fusion 风格)
     
     数据库引擎: SQLAlchemy (支持 MySQL, PostgreSQL, Oracle 等)
@@ -47,3 +56,11 @@ python main.py
     数据处理: Pandas (流式分块读取，内存友好)
     
     配置文件: JSON (本地持久化存储)
+
+### 结构示意图
+    
+    用户界面 (PyQt5) <---> 逻辑层 (MigrationApp) <---> 核心执行引擎 (WorkflowThread)
+                                    |
+                            +-------+-------+
+                            |               |
+                      数据提取 (Pandas)   配置存储 (JSON)
