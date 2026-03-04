@@ -10,7 +10,7 @@ icon_path = "app_icon.ico"
 
 params = [
     main_script,
-    '--onefile',            # 打包成单个 exe 文件
+    '--onedir',            # 打包成单个 exe 文件 --onedir  --onefile
     '--windowed',           # 运行时不显示命令行窗口 (GUI 程序必备)
     f'--name={exe_name}',   # 指定生成的文件名
     '--clean',              # 打包前清理临时文件
@@ -21,8 +21,8 @@ params = [
     '--exclude-module=notebook',
     '--exclude-module=IPython',
     # --- 新增启动封面参数 ---
-    '--splash=splash.png',
-    '--clean'
+    # '--splash=splash.png',
+    # '--clean'
 ]
 
 if __name__ == "__main__":
