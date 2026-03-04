@@ -522,8 +522,24 @@ class MigrationApp(QMainWindow):
         lay.addWidget(b)
         self.stack.addWidget(page)
 
+def print_logo():
+    logo = """
+    #################################################
+    #                                               #
+    #    ____        _        ____      _     _     #
+    #   |  _ \  __ _| |_ __ _| __ ) _ _(_) __| | __ _ #
+    #   | | | |/ _` | __/ _` |  _ \| '__| |/ _` |/ _` |#
+    #   | |_| | (_| | || (_| | |_) | |  | | (_| | (_| |#
+    #   |____/ \__,_|\__\__,_|____/|_|  |_|\__,_|\__, |#
+    #                                            |___/  #
+    #            --- DataBridge Pro v7 ---          #
+    #################################################
+    """
+    print(logo)
+
 if __name__ == "__main__":
-    app = QApplication(sys.argv);
+    print_logo() # 启动时打印 Logo
+    app = QApplication(sys.argv)
     app.setStyle("Fusion")
     win = MigrationApp();
     win.show();
